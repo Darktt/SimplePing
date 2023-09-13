@@ -43,7 +43,7 @@ class SimplePing
     public
     var hostAddressFamily: sa_family_t {
         
-        guard let hostAddress = self.hostAddress,
+        guard let hostAddress: Data = self.hostAddress,
               hostAddress.count >= MemoryLayout<sockaddr>.size else {
             
             return sa_family_t(AF_UNSPEC)
@@ -53,7 +53,7 @@ class SimplePing
             
             buffterPointer in
             
-            buffterPointer.load(as: sa_family_t.self)
+            buffterPointer.load(as: sockaddr.self).sa_family
         }
         
         return addressFamily
@@ -148,7 +148,7 @@ class SimplePing
     public
     func sendPing(data: Data?)
     {
-        guard let hostAddress = hostAddress else {
+        guard self.hostAddress != nil else {
             
             fatalError("Gotta wait for -simplePing:didStartWithAddress: before sending a ping")
         }
@@ -198,12 +198,12 @@ class SimplePing
         if bytesSent > 0 && bytesSent == packet.count {
             
             /* Complete success. Tell the client. */
-            self.delegate?.simplePing(self, didSendPacket: packet, sequenceNumber: nextSequenceNumber)
+            self.delegate?.simplePing(self, didSendPacket: packet, sequenceNumber: self.nextSequenceNumber)
         } else {
             
             /* Some sort of failure. Tell the client. */
             let error = NSError(domain: NSPOSIXErrorDomain, code: Int(err != 0 ? err : ENOBUFS), userInfo: nil)
-            self.delegate?.simplePing(self, didFailToSendPacket: packet, sequenceNumber: nextSequenceNumber, error: error)
+            self.delegate?.simplePing(self, didFailToSendPacket: packet, sequenceNumber: self.nextSequenceNumber, error: error)
         }
         
         // add value and avoid overflow.
@@ -410,7 +410,7 @@ extension SimplePing
         
         /* Note: We crash when we don’t copy the slice content; not sure why… (Xcode 10.0 beta (10L176w)) */
         let icmpPacket = Data(packet[icmpHeaderOffset...])
-        var icmpHeader = ICMPHeader(data: icmpPacket)
+        let icmpHeader = ICMPHeader(data: icmpPacket)
         
         let receivedChecksum = icmpHeader.checksum
         /* The checksum method returns a big-endian UInt16 */
@@ -553,21 +553,21 @@ extension SimplePing
     func startWithHostAddress()
     {
         /* *** Open the socket. *** */
-        let fd: Int32
+        let socketHandler: CFSocketNativeHandle
         let err: Int32
         
         switch self.hostAddressFamily
         {
             case sa_family_t(AF_INET):
-                fd = socket(AF_INET, SOCK_DGRAM, IPPROTO_ICMP)
-                err = (fd >= 0) ? 0 : errno
+                socketHandler = socket(AF_INET, SOCK_DGRAM, IPPROTO_ICMP)
+                err = (socketHandler >= 0) ? 0 : errno
             
             case sa_family_t(AF_INET6):
-                fd = socket(AF_INET6, SOCK_DGRAM, IPPROTO_ICMPV6)
-                err = (fd >= 0) ? 0 : errno
+                socketHandler = socket(AF_INET6, SOCK_DGRAM, IPPROTO_ICMPV6)
+                err = (socketHandler >= 0) ? 0 : errno
                 
             default:
-                fd = -1
+                socketHandler = -1
                 err = EPROTONOSUPPORT
         }
         
@@ -579,7 +579,8 @@ extension SimplePing
         
         /* *** Wrap it in a CFSocket and schedule it on the runloop. *** */
         var context = CFSocketContext(version: 0, info: unsafeBitCast(self, to: UnsafeMutableRawPointer.self), retain: nil, release: nil, copyDescription: nil)
-        self.sock = CFSocketCreateWithNative(nil, fd, CFSocketCallBackType.readCallBack.rawValue, kSocketReadCallback, &context)
+        let socket: CFSocket = CFSocketCreateWithNative(nil, socketHandler, CFSocketCallBackType.readCallBack.rawValue, kSocketReadCallback, &context)
+        self.sock = socket
         assert(self.sock != nil)
         
         /* *** The socket will now take care of cleaning up our file descriptor. *** */

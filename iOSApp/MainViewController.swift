@@ -82,6 +82,14 @@ private extension MainViewController {
             
             result in
             
+            if case let .received(data, sequence, interval) = result {
+                
+                let responsedMsg = "### Host responsed, latency (ms): \(interval * 1000) ms\n"
+                let receivedMsg = "#\(sequence) Data received, size=\(data.count)\n"
+                
+                print(responsedMsg + receivedMsg)
+            }
+            
             print(result)
         }
     }

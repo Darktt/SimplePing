@@ -17,7 +17,7 @@ enum SimplePingResponse
     
     case sent(Data, UInt16)
     
-    case received(Data, UInt16)
+    case received(Data, UInt16, TimeInterval)
     
     case unexpectedPacket(Data)
     
@@ -27,6 +27,8 @@ enum SimplePingResponse
 public
 class SimplePingManager: NSObject
 {
+    // MARK: - Properties -
+    
     public
     typealias SimplePingHandler = (SimplePingResponse) -> Void
     
@@ -39,15 +41,23 @@ class SimplePingManager: NSObject
     private
     weak var sendTimer: Timer?
     
+    public
     var isStarted: Bool {
         
         self.pinger != nil
     }
     
+    private
     var nextSequenceNumber: Int? {
         
         (self.pinger?.nextSequenceNumber).flatMap(Int.init)
     }
+    
+    private
+    var waitingResponseMap: Dictionary<UInt16, Date> = [:]
+    
+    // MARK: - Methods -
+    // MARK: Initial Method
     
     deinit
     {
@@ -81,7 +91,8 @@ extension SimplePingManager
 
 // MARK: - private utility methods
 
-private extension SimplePingManager
+private
+extension SimplePingManager
 {
     /// Sends a ping.
     ///
@@ -174,6 +185,7 @@ extension SimplePingManager: SimplePingDelegate
     public
     func simplePing(_ pinger: SimplePing, didStart address: Data)
     {
+        self.waitingResponseMap.removeAll()
         self.handler?(.start(stringRepresentation(forAddress: address)))
         self.startTimer()
     }
@@ -181,6 +193,7 @@ extension SimplePingManager: SimplePingDelegate
     public
     func simplePing(_ pinger: SimplePing, didFail error: Error)
     {
+        self.waitingResponseMap.removeAll()
         self.handler?(.failed(error))
         self.stop()
     }
@@ -188,19 +201,27 @@ extension SimplePingManager: SimplePingDelegate
     public
     func simplePing(_ pinger: SimplePing, didSendPacket packet: Data, sequenceNumber: UInt16)
     {
+        self.waitingResponseMap[sequenceNumber] = Date()
         self.handler?(.sent(packet, sequenceNumber))
     }
     
     public
     func simplePing(_ pinger: SimplePing, didFailToSendPacket packet: Data, sequenceNumber: UInt16, error: Error)
     {
+        self.waitingResponseMap[sequenceNumber] = nil
         self.handler?(.sendFailed(packet, sequenceNumber, error))
     }
     
     public
     func simplePing(_ pinger: SimplePing, didReceivePingResponsePacket packet: Data, sequenceNumber: UInt16)
     {
-        self.handler?(.received(packet, sequenceNumber))
+        guard let date = self.waitingResponseMap[sequenceNumber] else {
+            
+            return
+        }
+        
+        let interval: TimeInterval = Date().timeIntervalSince(date)
+        self.handler?(.received(packet, sequenceNumber, interval))
     }
     
     public
