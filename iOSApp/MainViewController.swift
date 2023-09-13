@@ -40,17 +40,17 @@ extension MainViewController {
                 let forceIPv4: Bool = forceIPv4Cell.accessoryType != .none
                 let forceIPv6: Bool = forceIPv6Cell.accessoryType != .none
                 
-                let address: SimplePing.AddressStyle = {
+                let address: SimplePingAddressStyle = {
                     
-                    let address: SimplePing.AddressStyle
+                    let address: SimplePingAddressStyle
                     
                     switch (forceIPv4, forceIPv6)
                     {
                         case (true, false):
-                            address = .icmpV4
+                            address = .icmpv4
                         
                         case (false, true):
-                            address = .icmpV6
+                            address = .icmpv6
                         
                         default:
                         address = .any
@@ -75,7 +75,7 @@ extension MainViewController {
 private extension MainViewController {
     /// Called by the table view selection delegate callback to start the ping.
     
-    func start(addressStyle: SimplePing.AddressStyle) {
+    func start(addressStyle: SimplePingAddressStyle) {
         pingerWillStart()
         
         pingManager.start(hostName: self.hostName, addressStyle: addressStyle) {

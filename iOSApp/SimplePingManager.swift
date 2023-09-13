@@ -70,7 +70,7 @@ class SimplePingManager: NSObject
 extension SimplePingManager
 {
     /// Called by the table view selection delegate callback to start the ping.
-    func start(hostName: String, addressStyle: SimplePing.AddressStyle = .any, handler: @escaping SimplePingHandler)
+    func start(hostName: String, addressStyle: SimplePingAddressStyle = .any, handler: @escaping SimplePingHandler)
     {
         self.handler = handler
         self.pinger = SimplePing(hostName: hostName)
@@ -221,6 +221,7 @@ extension SimplePingManager: SimplePingDelegate
         }
         
         let interval: TimeInterval = Date().timeIntervalSince(date)
+        self.waitingResponseMap[sequenceNumber] = nil
         self.handler?(.received(packet, sequenceNumber, interval))
     }
     
@@ -249,7 +250,7 @@ class SimplePingSubscription<SubscriberType: Subscriber>: Subscription where Sub
     // MARK: Initial Method
     
     public
-    init(subscriber: SubscriberType, hostName: String, addressStyle: SimplePing.AddressStyle = .any)
+    init(subscriber: SubscriberType, hostName: String, addressStyle: SimplePingAddressStyle = .any)
     {
         self.subscriber = subscriber
         self.manager.start(hostName: hostName, addressStyle: addressStyle) {
@@ -299,13 +300,13 @@ struct SimplePingPublisher: Publisher
     let hostName: String
     
     public
-    let addressStyle: SimplePing.AddressStyle
+    let addressStyle: SimplePingAddressStyle
     
     // MARK: - Methods -
     // MARK: Initial Method
     
     public
-    init(hostName: String, addressStyle: SimplePing.AddressStyle = .any)
+    init(hostName: String, addressStyle: SimplePingAddressStyle = .any)
     {
         self.hostName = hostName
         self.addressStyle = .any

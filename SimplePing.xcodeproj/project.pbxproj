@@ -13,14 +13,8 @@
 		E473E9B21C4FF27D0079BC19 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E473E9B11C4FF27D0079BC19 /* AppDelegate.swift */; };
 		E473E9B41C4FF27D0079BC19 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E473E9B31C4FF27D0079BC19 /* MainViewController.swift */; };
 		E473E9C21C4FF2DA0079BC19 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E473E9BF1C4FF2DA0079BC19 /* main.m */; };
-		F21B88062AAFFEB4009194CE /* SimplePingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21B88042AAFFEB4009194CE /* SimplePingDelegate.swift */; };
-		F21B88072AAFFEB4009194CE /* SimplePing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21B88052AAFFEB4009194CE /* SimplePing.swift */; };
-		F21B88082AAFFECB009194CE /* SimplePing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21B88052AAFFEB4009194CE /* SimplePing.swift */; };
-		F21B88092AAFFF34009194CE /* SimplePingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21B88042AAFFEB4009194CE /* SimplePingDelegate.swift */; };
-		F21B880C2AB006C6009194CE /* ICMP.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21B880A2AB006C6009194CE /* ICMP.swift */; };
-		F21B880D2AB006C6009194CE /* ICMP.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21B880A2AB006C6009194CE /* ICMP.swift */; };
-		F21B880E2AB006C6009194CE /* IPv4.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21B880B2AB006C6009194CE /* IPv4.swift */; };
-		F21B880F2AB006C6009194CE /* IPv4.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21B880B2AB006C6009194CE /* IPv4.swift */; };
+		F2C282992AB1688000B1386D /* SimplePing.m in Sources */ = {isa = PBXBuildFile; fileRef = F2C282972AB1688000B1386D /* SimplePing.m */; };
+		F2C2829A2AB17A1400B1386D /* SimplePing.m in Sources */ = {isa = PBXBuildFile; fileRef = F2C282972AB1688000B1386D /* SimplePing.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,10 +30,8 @@
 		E473E9F01C4FF6920079BC19 /* iOSApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iOSApp-Bridging-Header.h"; sourceTree = "<group>"; };
 		E473E9F21C501E9A0079BC19 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		E473E9F31C501E9A0079BC19 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		F21B88042AAFFEB4009194CE /* SimplePingDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimplePingDelegate.swift; sourceTree = "<group>"; };
-		F21B88052AAFFEB4009194CE /* SimplePing.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = SimplePing.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
-		F21B880A2AB006C6009194CE /* ICMP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ICMP.swift; sourceTree = "<group>"; };
-		F21B880B2AB006C6009194CE /* IPv4.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPv4.swift; sourceTree = "<group>"; };
+		F2C282972AB1688000B1386D /* SimplePing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplePing.m; sourceTree = "<group>"; };
+		F2C282982AB1688000B1386D /* SimplePing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimplePing.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,10 +90,8 @@
 		E473E9C31C4FF2EA0079BC19 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				F21B880A2AB006C6009194CE /* ICMP.swift */,
-				F21B880B2AB006C6009194CE /* IPv4.swift */,
-				F21B88052AAFFEB4009194CE /* SimplePing.swift */,
-				F21B88042AAFFEB4009194CE /* SimplePingDelegate.swift */,
+				F2C282982AB1688000B1386D /* SimplePing.h */,
+				F2C282972AB1688000B1386D /* SimplePing.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -206,11 +196,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F21B88062AAFFEB4009194CE /* SimplePingDelegate.swift in Sources */,
-				F21B88072AAFFEB4009194CE /* SimplePing.swift in Sources */,
 				E473E9C21C4FF2DA0079BC19 /* main.m in Sources */,
-				F21B880C2AB006C6009194CE /* ICMP.swift in Sources */,
-				F21B880E2AB006C6009194CE /* IPv4.swift in Sources */,
+				F2C282992AB1688000B1386D /* SimplePing.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,13 +205,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F21B880F2AB006C6009194CE /* IPv4.swift in Sources */,
 				834A91492439435900CDE7C2 /* SimplePingManager.swift in Sources */,
-				F21B88092AAFFF34009194CE /* SimplePingDelegate.swift in Sources */,
 				E473E9B21C4FF27D0079BC19 /* AppDelegate.swift in Sources */,
 				E473E9B41C4FF27D0079BC19 /* MainViewController.swift in Sources */,
-				F21B88082AAFFECB009194CE /* SimplePing.swift in Sources */,
-				F21B880D2AB006C6009194CE /* ICMP.swift in Sources */,
+				F2C2829A2AB17A1400B1386D /* SimplePing.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
