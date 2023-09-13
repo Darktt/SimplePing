@@ -6,4 +6,3 @@
     A bridging header so we can access SimplePing from Swift.
  */
 
-#import "SimplePing.h"

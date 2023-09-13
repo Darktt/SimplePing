@@ -13,8 +13,14 @@
 		E473E9B21C4FF27D0079BC19 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E473E9B11C4FF27D0079BC19 /* AppDelegate.swift */; };
 		E473E9B41C4FF27D0079BC19 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E473E9B31C4FF27D0079BC19 /* MainViewController.swift */; };
 		E473E9C21C4FF2DA0079BC19 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E473E9BF1C4FF2DA0079BC19 /* main.m */; };
-		E473E9C61C4FF2EA0079BC19 /* SimplePing.m in Sources */ = {isa = PBXBuildFile; fileRef = E473E9C51C4FF2EA0079BC19 /* SimplePing.m */; };
-		E473E9C71C4FF2F00079BC19 /* SimplePing.m in Sources */ = {isa = PBXBuildFile; fileRef = E473E9C51C4FF2EA0079BC19 /* SimplePing.m */; };
+		F21B88062AAFFEB4009194CE /* SimplePingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21B88042AAFFEB4009194CE /* SimplePingDelegate.swift */; };
+		F21B88072AAFFEB4009194CE /* SimplePing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21B88052AAFFEB4009194CE /* SimplePing.swift */; };
+		F21B88082AAFFECB009194CE /* SimplePing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21B88052AAFFEB4009194CE /* SimplePing.swift */; };
+		F21B88092AAFFF34009194CE /* SimplePingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21B88042AAFFEB4009194CE /* SimplePingDelegate.swift */; };
+		F21B880C2AB006C6009194CE /* ICMP.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21B880A2AB006C6009194CE /* ICMP.swift */; };
+		F21B880D2AB006C6009194CE /* ICMP.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21B880A2AB006C6009194CE /* ICMP.swift */; };
+		F21B880E2AB006C6009194CE /* IPv4.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21B880B2AB006C6009194CE /* IPv4.swift */; };
+		F21B880F2AB006C6009194CE /* IPv4.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21B880B2AB006C6009194CE /* IPv4.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,11 +33,13 @@
 		E473E9B11C4FF27D0079BC19 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E473E9B31C4FF27D0079BC19 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		E473E9BF1C4FF2DA0079BC19 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		E473E9C41C4FF2EA0079BC19 /* SimplePing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimplePing.h; sourceTree = "<group>"; };
-		E473E9C51C4FF2EA0079BC19 /* SimplePing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplePing.m; sourceTree = "<group>"; };
 		E473E9F01C4FF6920079BC19 /* iOSApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iOSApp-Bridging-Header.h"; sourceTree = "<group>"; };
 		E473E9F21C501E9A0079BC19 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		E473E9F31C501E9A0079BC19 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		F21B88042AAFFEB4009194CE /* SimplePingDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimplePingDelegate.swift; sourceTree = "<group>"; };
+		F21B88052AAFFEB4009194CE /* SimplePing.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = SimplePing.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		F21B880A2AB006C6009194CE /* ICMP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ICMP.swift; sourceTree = "<group>"; };
+		F21B880B2AB006C6009194CE /* IPv4.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPv4.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,8 +98,10 @@
 		E473E9C31C4FF2EA0079BC19 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				E473E9C41C4FF2EA0079BC19 /* SimplePing.h */,
-				E473E9C51C4FF2EA0079BC19 /* SimplePing.m */,
+				F21B880A2AB006C6009194CE /* ICMP.swift */,
+				F21B880B2AB006C6009194CE /* IPv4.swift */,
+				F21B88052AAFFEB4009194CE /* SimplePing.swift */,
+				F21B88042AAFFEB4009194CE /* SimplePingDelegate.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -151,8 +161,12 @@
 				LastSwiftUpdateCheck = 0720;
 				LastUpgradeCheck = 1140;
 				TargetAttributes = {
+					8DD76FA90486AB0100D96B5E = {
+						LastSwiftMigration = 1430;
+					};
 					E473E9A91C4FF27D0079BC19 = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = ZW7GPL8D3J;
 					};
 				};
 			};
@@ -192,8 +206,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F21B88062AAFFEB4009194CE /* SimplePingDelegate.swift in Sources */,
+				F21B88072AAFFEB4009194CE /* SimplePing.swift in Sources */,
 				E473E9C21C4FF2DA0079BC19 /* main.m in Sources */,
-				E473E9C61C4FF2EA0079BC19 /* SimplePing.m in Sources */,
+				F21B880C2AB006C6009194CE /* ICMP.swift in Sources */,
+				F21B880E2AB006C6009194CE /* IPv4.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -201,10 +218,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E473E9C71C4FF2F00079BC19 /* SimplePing.m in Sources */,
+				F21B880F2AB006C6009194CE /* IPv4.swift in Sources */,
 				834A91492439435900CDE7C2 /* SimplePingManager.swift in Sources */,
+				F21B88092AAFFF34009194CE /* SimplePingDelegate.swift in Sources */,
 				E473E9B21C4FF27D0079BC19 /* AppDelegate.swift in Sources */,
 				E473E9B41C4FF27D0079BC19 /* MainViewController.swift in Sources */,
+				F21B88082AAFFECB009194CE /* SimplePing.swift in Sources */,
+				F21B880D2AB006C6009194CE /* ICMP.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,16 +234,23 @@
 		1DEB928608733DD80010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "-";
 				PRODUCT_NAME = SimplePing;
+				SWIFT_OBJC_BRIDGING_HEADER = "Common/MacTool-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
 		1DEB928708733DD80010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "-";
 				PRODUCT_NAME = SimplePing;
+				SWIFT_OBJC_BRIDGING_HEADER = "Common/MacTool-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -346,6 +373,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = ZW7GPL8D3J;
 				INFOPLIST_FILE = iOSApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -363,6 +391,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = ZW7GPL8D3J;
 				INFOPLIST_FILE = iOSApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
