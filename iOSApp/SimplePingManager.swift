@@ -72,6 +72,11 @@ extension SimplePingManager
     /// Called by the table view selection delegate callback to start the ping.
     func start(hostName: String, addressStyle: SimplePingAddressStyle = .any, handler: @escaping SimplePingHandler)
     {
+        guard !self.isStarted else {
+            
+            return
+        }
+        
         self.handler = handler
         self.pinger = SimplePing(hostName: hostName)
         self.pinger?.addressStyle = addressStyle
@@ -85,6 +90,7 @@ extension SimplePingManager
         self.pinger?.stop()
         self.pinger = nil
         self.sendTimer?.invalidate()
+        self.sendTimer = nil
         self.handler = nil
     }
 }
@@ -96,21 +102,25 @@ extension SimplePingManager
 {
     /// Sends a ping.
     ///
-    /// Called to send a ping, both directly (as soon as the SimplePing object starts up) and
-    /// via a timer (to continue sending pings periodically).
+    /// Called to send a ping, both directly (as soon as the SGSimplePing object starts up).
     func sendPing()
     {
+        guard self.pinger?.hostAddress != nil else {
+            
+            return
+        }
+        
         self.pinger?.sendPing(data: nil)
     }
     
-    func startTimer()
+    func sendNextPing()
     {
         self.sendTimer?.invalidate()
-        self.sendTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) {
+        self.sendTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) {
             
             [weak self] timer in
             
-            guard let self = self else {
+            guard timer.isValid, let self = self else {
                 
                 timer.invalidate()
                 return
@@ -118,7 +128,6 @@ extension SimplePingManager
             
             self.sendPing()
         }
-        self.sendTimer?.fire()
     }
     
     /// Returns the string representation of the supplied address.
@@ -131,8 +140,12 @@ extension SimplePingManager
     {
         var hostStr = [Int8](repeating: 0, count: Int(NI_MAXHOST))
         
-        let result = address.withUnsafeBytes { pointer in
+        let result = address.withUnsafeBytes {
+            
+            pointer in
+            
             getnameinfo(
+                
                 pointer.baseAddress?.assumingMemoryBound(to: sockaddr.self),
                 socklen_t(address.count),
                 &hostStr,
@@ -187,7 +200,7 @@ extension SimplePingManager: SimplePingDelegate
     {
         self.waitingResponseMap.removeAll()
         self.handler?(.start(stringRepresentation(forAddress: address)))
-        self.startTimer()
+        self.sendPing()
     }
     
     public
@@ -210,6 +223,7 @@ extension SimplePingManager: SimplePingDelegate
     {
         self.waitingResponseMap[sequenceNumber] = nil
         self.handler?(.sendFailed(packet, sequenceNumber, error))
+        self.sendNextPing()
     }
     
     public
@@ -223,6 +237,7 @@ extension SimplePingManager: SimplePingDelegate
         let interval: TimeInterval = Date().timeIntervalSince(date)
         self.waitingResponseMap[sequenceNumber] = nil
         self.handler?(.received(packet, sequenceNumber, interval))
+        self.sendNextPing()
     }
     
     public
