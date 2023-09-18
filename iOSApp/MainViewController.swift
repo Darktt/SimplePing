@@ -13,6 +13,11 @@ class MainViewController: UITableViewController {
     
     let pingManager = SimplePingManager()
     
+    lazy var pinger = {
+        
+        Pinger(hostName: self.hostName)
+    }()
+    
     @IBOutlet var forceIPv4Cell: UITableViewCell!
     @IBOutlet var forceIPv6Cell: UITableViewCell!
     @IBOutlet var startStopCell: UITableViewCell!
@@ -34,7 +39,7 @@ extension MainViewController {
             cell.accessoryType = cell.accessoryType == .none ? .checkmark : .none
             
         case startStopCell:
-            if pingManager.isStarted {
+            if self.pinger.isRunning {
                 stop()
             } else {
                 let forceIPv4: Bool = forceIPv4Cell.accessoryType != .none
@@ -78,26 +83,21 @@ private extension MainViewController {
     func start(addressStyle: SimplePingAddressStyle) {
         pingerWillStart()
         
-        pingManager.start(hostName: self.hostName, addressStyle: addressStyle) {
+        let resultHandler: Pinger.ResultHandler = {
             
             result in
             
-            if case let .received(data, sequence, interval) = result {
-                
-                let responsedMsg = "### Host responsed, latency (ms): \(interval * 1000) ms\n"
-                let receivedMsg = "#\(sequence) Data received, size=\(data.count)\n"
-                
-                print(responsedMsg + receivedMsg)
-            }
-            
             print(result)
         }
+        
+        self.pinger.start(result: resultHandler)
     }
     
     /// Called by the table view selection delegate callback to stop the ping.
     
     func stop() {
-        pingManager.stop()
+        
+        self.pinger.stop()
         pingerDidStop()
     }
     
